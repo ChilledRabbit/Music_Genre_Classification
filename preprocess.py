@@ -3,7 +3,7 @@ import os
 import librosa
 import json
 
-DATASET_PATH = "Data"
+DATASET_PATH = "Data\genres_original"
 JSON_PATH = "data.json"
 
 SAMPLE_RATE = 22050
