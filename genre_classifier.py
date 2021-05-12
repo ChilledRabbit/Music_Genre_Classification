@@ -18,6 +18,7 @@ def load_data(dataset_path):
 
     return inputs, targets
 
+
 def plot_history(history):
 
     fig, axs = plt.subplots(2)
@@ -85,7 +86,7 @@ if __name__ == "__main__":
                         targets_train,
                         validation_data=(inputs_test, targets_test),
                         epochs=50,
-                        batch_size=32)
+                        batch_size=100)
 
     # Plot accuracy and error over the epochs
 
