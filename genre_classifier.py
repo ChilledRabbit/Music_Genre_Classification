@@ -85,7 +85,7 @@ if __name__ == "__main__":
     history = model.fit(inputs_train,
                         targets_train,
                         validation_data=(inputs_test, targets_test),
-                        epochs=50,
+                        epochs=100,
                         batch_size=100)
 
     # Plot accuracy and error over the epochs
