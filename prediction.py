@@ -58,7 +58,7 @@ X_train, X_validation, X_test, y_train, y_validation, y_test = prepare_dataset(0
 
 model = tensorflow.keras.models.load_model('My model')
 
-X = X_test[100]
-y = y_test[100]
+X = X_test[500]
+y = y_test[500]
 
 predict(model, X, y)
