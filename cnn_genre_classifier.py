@@ -118,6 +118,6 @@ if __name__ == "__main__":
 
     # Make prediction on a sample
 
-    X = X_test[100]
-    y = y_test[100]
+    X = X_test[500]
+    y = y_test[500]
     predict(model, X, y)
