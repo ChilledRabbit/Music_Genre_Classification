@@ -3,6 +3,7 @@ import numpy as np
 import sklearn.model_selection
 import tensorflow.keras as keras
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 DATASET_PATH = "data.json"
 print(tf.__version__)
@@ -18,6 +19,30 @@ def load_data(dataset_path):
 
     return X, y
 
+def plot_history(history):
+    """Plots accuracy/loss for training/validation set as a function of the epochs
+        :param history: Training history of model
+        :return:
+    """
+
+    fig, axs = plt.subplots(2)
+
+    # create accuracy sublpot
+    axs[0].plot(history.history["accuracy"], label="train accuracy")
+    axs[0].plot(history.history["val_accuracy"], label="test accuracy")
+    axs[0].set_ylabel("Accuracy")
+    axs[0].legend(loc="lower right")
+    axs[0].set_title("Accuracy eval")
+
+    # create error sublpot
+    axs[1].plot(history.history["loss"], label="train error")
+    axs[1].plot(history.history["val_loss"], label="test error")
+    axs[1].set_ylabel("Error")
+    axs[1].set_xlabel("Epoch")
+    axs[1].legend(loc="upper right")
+    axs[1].set_title("Error eval")
+
+    plt.show()
 
 def prepare_dataset(test_size, validation_size):
 
@@ -70,35 +95,35 @@ def predict(model, X, y):
 
 
 if __name__ == "__main__":
-    # Create train, validation and test sets
 
+    # get train, validation, test splits
     X_train, X_validation, X_test, y_train, y_validation, y_test = prepare_dataset(0.25, 0.2)
 
-    # Build the RNN-LSTM network
-
+    # create network
     input_shape = (X_train.shape[1], X_train.shape[2])  # 130, 13
     model = build_model(input_shape)
 
-    # Compile the network
+    # compile model
+    optimiser = keras.optimizers.Adam(learning_rate=0.0001)
+    model.compile(optimizer=optimiser,
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
 
-    optimizer = keras.optimizers.Adam(learning_rate=0.0001)
-    model.compile(optimizer,
-                  loss="sparse_categorical_crossentropy",
-                  metrics=['accuracy']
-                  )
+    model.summary()
 
-    # Train RNN
+    # train model
+    history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=30)
 
-    model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=30)
+    # plot accuracy/error for training and validation
+    plot_history(history)
 
-    # Evaluate the RNN on the test set
-
-    test_error, test_accuracy = model.evaluate(X_test, y_test, verbose=1)
-    print("Accuracy on test set is: {}".format(test_accuracy))
+    # evaluate model on test set
+    test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
+    print('\nTest accuracy:', test_acc)
 
     # Export Model
 
-    model.save('My model')
+    model.save('My LSTM Model')
 
     # Make prediction on a sample
 

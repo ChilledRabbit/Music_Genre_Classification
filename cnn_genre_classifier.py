@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     # Export Model
 
-    model.save('My model')
+    model.save('My CNN Model')
 
     # Make prediction on a sample
 

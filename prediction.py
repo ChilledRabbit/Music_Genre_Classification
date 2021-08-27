@@ -56,9 +56,9 @@ X_train, X_validation, X_test, y_train, y_validation, y_test = prepare_dataset(0
 
 # Predict using model generated in cnn_genre_classifier
 
-model = tensorflow.keras.models.load_model('My model')
+model = tensorflow.keras.models.load_model('My RNN Model')  # Use 'My CNN Model' for prediction using CNN Model
 
-X = X_test[500]
-y = y_test[500]
+X = X_test[100]
+y = y_test[100]
 
 predict(model, X, y)
